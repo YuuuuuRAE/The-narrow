@@ -7908,6 +7908,7 @@ GameObject:
   - component: {fileID: 1328384564}
   - component: {fileID: 1328384566}
   - component: {fileID: 1328384565}
+  - component: {fileID: 1328384567}
   m_Layer: 0
   m_Name: West Piller
   m_TagString: Untagged
@@ -7979,6 +7980,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328384563}
+  m_Mesh: {fileID: 4300000, guid: 63cced25a7a17994cb6e3cbd9f1059b9, type: 3}
+--- !u!64 &1328384567
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328384563}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 63cced25a7a17994cb6e3cbd9f1059b9, type: 3}
 --- !u!1 &1329728038
 GameObject:
@@ -12822,6 +12837,7 @@ GameObject:
   - component: {fileID: 2051927822}
   - component: {fileID: 2051927824}
   - component: {fileID: 2051927823}
+  - component: {fileID: 2051927825}
   m_Layer: 0
   m_Name: East Piller
   m_TagString: Untagged
@@ -12893,6 +12909,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051927821}
+  m_Mesh: {fileID: 4300000, guid: 63cced25a7a17994cb6e3cbd9f1059b9, type: 3}
+--- !u!64 &2051927825
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051927821}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 63cced25a7a17994cb6e3cbd9f1059b9, type: 3}
 --- !u!1 &2052341337
 GameObject:
