@@ -14,6 +14,8 @@ public class PlayerMove : MonoBehaviour
     //Player's Rigidbody
     private Rigidbody rigid;
 
+    private bool isCollision;
+
     private void Awake()
     {
         //Get Component
@@ -29,6 +31,8 @@ public class PlayerMove : MonoBehaviour
     //Move Method
     private void Move()
     {
+        rigid.velocity = Vector3.zero;
+
         //Input Direction : Right and Left
         float dirX = Input.GetAxisRaw("Horizontal");
 
@@ -44,5 +48,7 @@ public class PlayerMove : MonoBehaviour
 
         //Rigid : Move Position
         rigid.MovePosition(transform.position + velocity);
+
+        
     }
 }

@@ -46,7 +46,6 @@ public class WallController : MonoBehaviour
 
         canNarrow = true;
     }
-
     private void Update()
     {
         if (gameStart)
@@ -72,7 +71,6 @@ public class WallController : MonoBehaviour
             }
         }
     }
-
     //Convert Narrow Sign
     private void ConvertNarrowSign()
     {
@@ -82,7 +80,6 @@ public class WallController : MonoBehaviour
             canNarrow = false;
         }
     }
-
     private void NarrowWalls()
     {
         //Move Walls
