@@ -8,16 +8,19 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlayerMove : MonoBehaviour
 {
+    public bool canMove = false;
+
     [Header("플레이어의 '걷기' 이동 속도")]
     [SerializeField] private float walkSpeed;
 
     //Player's Rigidbody
     private Rigidbody rigid;
 
-    private bool isCollision;
-
     private void Awake()
     {
+        //Init
+        canMove = false;
+
         //Get Component
         rigid = GetComponent<Rigidbody>();
     }
@@ -25,7 +28,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         //Call Move Method in Fixed Update
-        Move();
+        if (canMove) Move();
     }
 
     //Move Method

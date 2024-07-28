@@ -55,7 +55,7 @@ public class WallController : MonoBehaviour
             //Check Narrow Time
             if (currentTime >= narrowTime)
             {
-                if (narrowTime != 600)
+                if (narrowTime != maxTime)
                     //Convert Narrow Sign Method
                     ConvertNarrowSign();
                 else

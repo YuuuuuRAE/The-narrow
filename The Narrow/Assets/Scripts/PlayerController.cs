@@ -22,19 +22,27 @@ public class PlayerController : MonoBehaviour
 
     //Player's Rigidbody
     private Rigidbody rigid;
+
+    //Player Move Script
+    private PlayerMove playerMove;
+
     private void Awake()
     {
         //Get Component
         rigid = GetComponent<Rigidbody>();
+        playerMove = GetComponent<PlayerMove>();
     }
 
     private void Update()
     {
-        //Call Camera Rotation Method in Update
-        CameraRotation();
+        if (playerMove.canMove)
+        {
+            //Call Camera Rotation Method in Update
+            CameraRotation();
 
-        //Call Player Rotation Method in Fixed Update
-        PlayerRotation();
+            //Call Player Rotation Method in Fixed Update
+            PlayerRotation();
+        }
     }
     
     private void CameraRotation()
