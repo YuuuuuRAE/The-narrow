@@ -1,11 +1,12 @@
 //System
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 //Unity
 using UnityEngine;
-using UnityEngine.UI;
+
+//TMPro
+using TMPro;
 
 [DisallowMultipleComponent]
 public class ActionController : MonoBehaviour
@@ -31,7 +32,6 @@ public class ActionController : MonoBehaviour
         //Call Try Action Method
         TryAction();
     }
-
 
     //Tray Action Method : Key is 'E'
     private void TryAction()
