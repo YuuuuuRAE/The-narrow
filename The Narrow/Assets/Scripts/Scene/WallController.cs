@@ -78,6 +78,9 @@ public class WallController : MonoBehaviour
         {
             //Avioid Duplication
             canNarrow = false;
+
+            //Play Sound
+            SoundManager.instance.PlaySFX("Wall Move");
         }
     }
     private void NarrowWalls()

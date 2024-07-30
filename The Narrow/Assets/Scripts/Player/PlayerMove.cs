@@ -23,6 +23,9 @@ public class PlayerMove : MonoBehaviour
     [Header("¿õÅ©·ÈÀ» ¶§ ¼Óµµ")]
     [SerializeField] private float crouchSpeed;
 
+    [Header("¿õÅ©·ÈÀ» ¶§ÀÇ Y À§Ä¡")]
+    [SerializeField] private float crouchPosY;
+
     //Player's Rigidbody
     private Rigidbody rigid;
 
@@ -42,11 +45,18 @@ public class PlayerMove : MonoBehaviour
     //Origin Position Y
     private float originPosY;
 
-    //Crouch Position Y
-    [Header("¿õÅ©·ÈÀ» ¶§ÀÇ Y À§Ä¡")]
-    [SerializeField] private float crouchPosY;
-
+    //Apply Crouch Position Y
     private float applyCrouchPosY;
+
+    //Key State Variables
+    private bool downSpace;
+
+    // SFX
+    //FootStep Sound
+    private string footStepSound;
+
+    //FooStep Sound Play Coroutine
+    private Coroutine footStepSoundPalyCoroutine;
 
     private void Awake()
     { 
@@ -62,7 +72,7 @@ public class PlayerMove : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //Call Move Method in Fixed Update
         if (canMove)
@@ -71,11 +81,25 @@ public class PlayerMove : MonoBehaviour
             Move();
 
             //Jump
-            CheckLanding();
             Jump();
+        }
+    }
+
+    private void Update()
+    {
+        if (canMove)
+        {
+            //Check Landing
+            CheckLanding();
+
+            //Try Jump
+            TryJump();
 
             //Crouch
             TryCrouch();
+
+            //Play Move Sound
+            PlayMoveSound();
         }
     }
 
@@ -99,12 +123,53 @@ public class PlayerMove : MonoBehaviour
         rigid.MovePosition(transform.position + velocity * Time.deltaTime);
     }
 
+    //Play Move Sound Method
+    private void PlayMoveSound()
+    {
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
+        {
+            if (footStepSoundPalyCoroutine == null)
+                footStepSoundPalyCoroutine = StartCoroutine(PlayMoveSoundCoroutine());
+        }
+        else if (!Input.GetButton("Horizontal") && !Input.GetButton("Vertical"))
+        {
+            if (footStepSoundPalyCoroutine != null)
+            {
+                footStepSoundPalyCoroutine = null;
+                StopAllCoroutines();
+            }
+        }
+    }
+
+    //Play Move Sound Coroutine
+    IEnumerator PlayMoveSoundCoroutine()
+    {
+        int randomIndex = Random.Range(0, 10);
+
+        footStepSound = SoundManager.instance.sfxs[randomIndex].name;
+
+        SoundManager.instance.PlaySFX(footStepSound);
+
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(PlayMoveSoundCoroutine());
+    }
+
+    //Try Jump Method
+    private void TryJump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+            downSpace = true;
+    }
+
     //Jump Method
     private void Jump()
     {
         //Key : Space
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        if (downSpace && canJump)
         {
+            downSpace = false;
+
             //if player is crouching...
             if (isCrouch)
                 Crouch();
