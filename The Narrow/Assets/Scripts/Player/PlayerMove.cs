@@ -75,7 +75,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         //Call Move Method in Fixed Update
-        if (canMove)
+        if (canMove && !GameManager.instance.isPause)
         {
             //Move
             Move();
@@ -87,7 +87,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if (canMove)
+        if (canMove && !GameManager.instance.isPause)
         {
             //Check Landing
             CheckLanding();

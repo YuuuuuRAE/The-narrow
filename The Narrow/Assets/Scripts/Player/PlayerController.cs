@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (playerMove.canMove)
+        if (playerMove.canMove && !GameManager.instance.isPause)
         {
             //Call Camera Rotation Method in Update
             CameraRotation();

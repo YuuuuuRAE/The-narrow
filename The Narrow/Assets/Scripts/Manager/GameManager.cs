@@ -1,18 +1,40 @@
+//System
 using System.Collections;
 using System.Collections.Generic;
+
+//Unity
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //Singleton
+    public static GameManager instance;
+
+    public bool isPause;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Pause()
     {
-        
+        Time.timeScale = 0f;
+        isPause = true;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1f;
+        isPause = false;
     }
 }

@@ -9,5 +9,21 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TutorialScene : MonoBehaviour
 {
-    
+    //GameManager
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameManager.instance;
+    }
+
+    public void Pause()
+    {
+        gameManager.Pause();
+    }
+
+    public void Resume()
+    {
+        gameManager.Resume();
+    }
 }
