@@ -74,6 +74,8 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rigid.velocity = Vector3.up * rigid.velocity.y;
+
         //Call Move Method in Fixed Update
         if (canMove && !GameManager.instance.isPause)
         {
