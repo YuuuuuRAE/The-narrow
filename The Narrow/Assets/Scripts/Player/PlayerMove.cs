@@ -172,6 +172,8 @@ public class PlayerMove : MonoBehaviour
         {
             downSpace = false;
 
+            SoundManager.instance.PlaySFX("Jump Start");
+
             //if player is crouching...
             if (isCrouch)
                 Crouch();
@@ -184,6 +186,8 @@ public class PlayerMove : MonoBehaviour
     //Check Landing Method
     private void CheckLanding()
     {
+        //SoundManager.instance.PlaySFX("Jump Land");
+
         canJump = Physics.Raycast(transform.position, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
     }
 

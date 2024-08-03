@@ -10,6 +10,7 @@ public class CheckInventoryOpen : MonoBehaviour
 {
     [SerializeField] PlayerMove playerMove;
     [SerializeField] WallController WallController;
+    [SerializeField] GameObject blackBackGround;
 
     private void OnEnable()
     {
@@ -17,7 +18,9 @@ public class CheckInventoryOpen : MonoBehaviour
         {
             playerMove.canMove = false;
 
-            SoundManager.instance.PlaySFX("Hover");
+            blackBackGround.SetActive(true);
+
+            //SoundManager.instance.PlaySFX("Hover");
         }
 
     }
@@ -28,7 +31,9 @@ public class CheckInventoryOpen : MonoBehaviour
         {
             playerMove.canMove = true;
 
-            SoundManager.instance.PlaySFX("Click");
+            blackBackGround.SetActive(false);
+
+            //SoundManager.instance.PlaySFX("Click");
         }
 
     }
