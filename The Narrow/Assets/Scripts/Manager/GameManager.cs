@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     //Singleton
     public static GameManager instance;
 
-    public bool isPause;
+    //Awake -> Start -> FixedUpdate -> Update -> LateUpdate
+    // + OnEnable / OnDisable
 
     private void Awake()
     {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public bool isPause;
 
     public void Pause()
     {

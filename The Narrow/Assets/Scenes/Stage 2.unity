@@ -16279,6 +16279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMove: {fileID: 2137565923}
   WallController: {fileID: 2086258757}
+  blackBackGround: {fileID: 0}
 --- !u!114 &516706586
 MonoBehaviour:
   m_ObjectHideFlags: 0

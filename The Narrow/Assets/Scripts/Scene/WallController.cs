@@ -50,7 +50,7 @@ public class WallController : MonoBehaviour
     {
         if (gameStart)
         {
-            currentTime+= Time.deltaTime;
+            currentTime += Time.deltaTime;
             
             //Check Narrow Time
             if (currentTime >= narrowTime)
