@@ -256,4 +256,12 @@ public class PlayerMove : MonoBehaviour
         //ReApply to Camera transform
         cam.transform.localPosition = new Vector3(0f, applyCrouchPosY, 0f);
     }
+    
+    /// <summary>
+    /// Player Can Move (Button)
+    /// </summary>
+    public void PlayerCanMove()
+    {
+        canMove = true;
+    }
 }

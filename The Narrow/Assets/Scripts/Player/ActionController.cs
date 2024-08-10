@@ -7,8 +7,11 @@ using UnityEngine;
 
 //TMPro
 using TMPro;
+
+//Dark UI
 using Michsky.UI.Dark;
 
+//Name Space : XEntity Inventory System
 namespace XEntity.InventoryItemSystem
 {
     [DisallowMultipleComponent]
@@ -17,17 +20,17 @@ namespace XEntity.InventoryItemSystem
         [Header("습득 가능 최대 거리")]
         [SerializeField] private float range;
 
+        //State Variable : Can Pick Up (Pick Up Item)
         private bool canPickUp;
 
+        //State Variable : Can Open (Door, Chest)
         private bool canOpen;
 
+        //Variable of RayCastHit
         private RaycastHit hit;
 
-        [Header("아이템 레이어 마스크 정보")]
-        [SerializeField] private LayerMask itemLayerMask;
-
-        [Header("문 레이어 마스크 정보")]
-        [SerializeField] private LayerMask doorLayerMask;
+        [Header("레이어 마스크 정보")]
+        [SerializeField] private LayerMask objLayerMask;
 
         [Header("Action Text 오브젝트")]
         [SerializeField] private TextMeshProUGUI actionText;
@@ -44,14 +47,127 @@ namespace XEntity.InventoryItemSystem
         [Header("문을 열고 나갈 수 없음을 알려주는 팝업")]
         [SerializeField] private ModalWindowManager cantOpenWindow;
 
+        [SerializeField] private PlayerMove playerMove;
+
+        private void Awake()
+        {
+            playerMove = transform.parent.GetComponent<PlayerMove>();
+        }
+
         private void Update()
         {
-            //Call Check Item Method
-            CheckItem();
+            if (playerMove.canMove)
+            {
+                //Call Check Item Method
+                CheckItem();
 
-            //Call Try Action Method
-            TryAction();
+                //Call Try Action Method
+                TryAction();
+            }
         }
+
+        #region 레이를 통한 아이템 체크 및 상태 변수 변경
+
+        /// <summary>
+        /// Initialize State Variabe of All
+        /// </summary>
+        private void Init()
+        {
+            canPickUp = false;
+            canOpen = false;
+        }
+
+        /// <summary>
+        /// Checking Item
+        /// </summary>
+        private void CheckItem()
+        {
+            //Debug Draw Ray
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * range, Color.red);
+
+            //Check Ray Cast
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range, objLayerMask))
+            {
+                //Compare Tag
+                if (hit.transform.CompareTag("Item"))
+                {
+                    //Call Pick Up Item Info Method
+                    AppearPickUpInfo();
+                }
+                else if (hit.transform.CompareTag("Door"))
+                {
+                    //Call Appear Door Info Method
+                    AppearDoorInfo();
+                }
+                else if (hit.transform.CompareTag("Book"))
+                {
+                    //Call Appear Book Info Method
+                    AppearBookInfo();
+                }
+            }
+            //Call Disappear Information Method
+            else DisappearInfo();
+        }
+
+        /// <summary>
+        /// Appear Pick Up Item Information
+        /// </summary>
+        private void AppearPickUpInfo()
+        {
+            //Player Can Pick Up Item
+            canPickUp = true;
+
+            //Set Active : True
+            actionText.gameObject.SetActive(true);
+
+            //Update Text
+            actionText.text = hit.transform.GetComponent<InstantHarvest>().harvestItem.itemName + " 획득 " + "(E)";
+        }
+
+        /// <summary>
+        /// Appear Door Information
+        /// </summary>
+        private void AppearDoorInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "문 열기 " + "(E)";
+
+            //Check Key
+            foreach (ItemSlot item in itemContainer.slots)
+            {
+                //Pass Loop
+                if (item.slotItem == null) continue;
+
+                //Check Key
+                if (item.slotItem.itemName == "Key") canOpen = true;
+                else canOpen = false;
+            }
+        }
+
+        /// <summary>
+        /// Appear Book Information 
+        /// </summary>
+        private void AppearBookInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "책 보기 " + "(E)";
+        }
+
+        /// <summary>
+        /// Disappear Information Method
+        /// </summary>
+        private void DisappearInfo()
+        {
+            //Initialize
+            Init();
+
+            //Set Active : false
+            actionText.gameObject.SetActive(false);
+        }
+
+        #endregion
 
         //Tray Action Method : Key is 'E'
         private void TryAction()
@@ -84,52 +200,8 @@ namespace XEntity.InventoryItemSystem
 
                     hit.transform.GetComponent<InstantHarvest>().AttemptHarvest(interactor);
 
-                    DisappearItemInfo();
+                    DisappearInfo();
                 }
-            }
-        }
-
-        //Check Item Method
-        private void CheckItem()
-        {
-            //Debug Draw Ray
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * range, Color.red);
-
-            //Check Ray Cast
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, range, itemLayerMask))
-            {
-                //Compare Tag
-                if (hit.transform.CompareTag("Item"))
-                {
-                    //Call Appear Item Info Method
-                    AppearItemInfo();
-                }
-                else if (hit.transform.CompareTag("Door"))
-                {
-                    //Call Appear Door Info Method
-                    AppearDoorInfo();
-                }
-            }
-            //Call Disappear Item Info Method
-            else DisappearItemInfo();
-        }
-
-        //Appear Door Info
-        private void AppearDoorInfo()
-        {
-            actionText.gameObject.SetActive(true);
-
-            actionText.text = "문 열기 " + "(E)";
-
-            //Check Key
-            foreach (ItemSlot item in itemContainer.slots)
-            {
-                //Pass Loop
-                if (item.slotItem == null) continue;
-
-                //Check Key
-                if (item.slotItem.itemName == "Key") canOpen = true;
-                else canOpen = false;
             }
         }
 
@@ -144,42 +216,17 @@ namespace XEntity.InventoryItemSystem
                 {
                     clearWindow.ModalWindowIn();
 
-                    GameManager.instance.Pause();
+                    playerMove.canMove = false;
                 }
                 else if (!canOpen)
                 {
                     cantOpenWindow.ModalWindowIn();
 
-                    GameManager.instance.Pause();
+                    SoundManager.instance.PlaySFX("Unlock");
+
+                    playerMove.canMove = false;
                 }
             }
-
-        }
-
-        //Appear Item Info Method
-        private void AppearItemInfo()
-        {
-            //Player Can Pick Up Item
-            canPickUp = true;
-
-            //Set Active : True
-            actionText.gameObject.SetActive(true);
-
-            //Update Text
-            actionText.text = hit.transform.GetComponent<InstantHarvest>().harvestItem.itemName + " 획득 " + "(E)";
-        }
-
-        //Disappear Item Info Method
-        private void DisappearItemInfo()
-        {
-            //Player Can't Pick Up Item
-            canPickUp = false;
-
-            //Player Can't Open the door
-            canOpen = false;
-
-            //Set Active : false
-            actionText.gameObject.SetActive(false);
         }
     }
 }
