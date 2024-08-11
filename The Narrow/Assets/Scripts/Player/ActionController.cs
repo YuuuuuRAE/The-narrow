@@ -26,6 +26,8 @@ namespace XEntity.InventoryItemSystem
         //State Variable : Can Open (Door, Chest)
         private bool canOpen;
 
+        private bool canOpenVent;
+
         //Variable of RayCastHit
         private RaycastHit hit;
 
@@ -46,6 +48,12 @@ namespace XEntity.InventoryItemSystem
 
         [Header("문을 열고 나갈 수 없음을 알려주는 팝업")]
         [SerializeField] private ModalWindowManager cantOpenWindow;
+
+        [Header("벤트를 열 수 없음을 알려주는 팝업")] //*
+        [SerializeField] private ModalWindowManager cantOpenVent;
+
+        [Header("벤트를 열었음을 알려주는 팝업")] //*
+        [SerializeField] private ModalWindowManager openVent;
 
         [SerializeField] private PlayerMove playerMove;
 
@@ -75,6 +83,7 @@ namespace XEntity.InventoryItemSystem
         {
             canPickUp = false;
             canOpen = false;
+            canOpenVent = false; //* Initialize Vent State
         }
 
         /// <summary>
@@ -103,6 +112,11 @@ namespace XEntity.InventoryItemSystem
                 {
                     //Call Appear Book Info Method
                     AppearBookInfo();
+                }
+                else if (hit.transform.CompareTag("Vent"))
+                {
+                    //*Call Appear Vent Info Method
+                    AppearVentInfo();
                 }
             }
             //Call Disappear Information Method
@@ -155,6 +169,27 @@ namespace XEntity.InventoryItemSystem
             actionText.text = "책 보기 " + "(E)";
         }
 
+        ///* <summary>
+        /// Appear Vent Information 
+        /// </summary>
+        private void AppearVentInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "환풍구 열기 " + "(E)";
+            
+            //Check Key
+            foreach (ItemSlot item in itemContainer.slots)
+            {
+                //Pass Loop
+                if (item.slotItem == null) continue;
+
+                //Check Key
+                if (item.slotItem.itemName == "Key") canOpenVent = true;
+                else canOpenVent = false;
+            }
+        }
+
         /// <summary>
         /// Disappear Information Method
         /// </summary>
@@ -182,6 +217,9 @@ namespace XEntity.InventoryItemSystem
 
                 //Open Door
                 OpenDoor();
+
+                //*Open Vent
+                OpenVent();
             }
         }
 
@@ -221,6 +259,30 @@ namespace XEntity.InventoryItemSystem
                 else if (!canOpen)
                 {
                     cantOpenWindow.ModalWindowIn();
+
+                    SoundManager.instance.PlaySFX("Unlock");
+
+                    playerMove.canMove = false;
+                }
+            }
+        }
+
+        //*Open Vent Method
+        private void OpenVent()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("Vent"))
+            {
+                if (canOpenVent)
+                {
+                    openVent.ModalWindowIn();
+
+                    playerMove.canMove = false;
+                }
+                else if (!canOpenVent)
+                {
+                    cantOpenVent.ModalWindowIn();
 
                     SoundManager.instance.PlaySFX("Unlock");
 
