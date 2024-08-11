@@ -120,8 +120,13 @@ namespace XEntity.InventoryItemSystem
                 }
                 else if (hit.transform.CompareTag("BookShelf"))
                 {
-                    //*Call Appear Vent Info Method
+                    //*Call Appear BookShelf Info Method
                     AppearBookShelfInfo();
+                }
+                else if (hit.transform.CompareTag("Table"))
+                {
+                    //*Call Appear Table Info Method
+                    AppearTableInfo();
                 }
                 
             }
@@ -204,6 +209,18 @@ namespace XEntity.InventoryItemSystem
             actionText.gameObject.SetActive(true);
 
             actionText.text = "책장 확인 " + "(E)";
+            
+        }
+
+
+        ///* <summary>
+        /// Appear Table Information 
+        /// </summary>
+        private void AppearTableInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "책상 확인 " + "(E)";
             
         }
 
