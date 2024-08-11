@@ -118,6 +118,12 @@ namespace XEntity.InventoryItemSystem
                     //*Call Appear Vent Info Method
                     AppearVentInfo();
                 }
+                else if (hit.transform.CompareTag("BookShelf"))
+                {
+                    //*Call Appear Vent Info Method
+                    AppearBookShelfInfo();
+                }
+                
             }
             //Call Disappear Information Method
             else DisappearInfo();
@@ -188,6 +194,17 @@ namespace XEntity.InventoryItemSystem
                 if (item.slotItem.itemName == "Key") canOpenVent = true;
                 else canOpenVent = false;
             }
+        }
+
+        ///* <summary>
+        /// Appear BookShelf Information 
+        /// </summary>
+        private void AppearBookShelfInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "책장 확인 " + "(E)";
+            
         }
 
         /// <summary>

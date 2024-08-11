@@ -8,6 +8,8 @@ TagManager:
   - Item
   - Door
   - Book
+  - Vent
+  - BookShelf
   layers:
   - Default
   - TransparentFX
