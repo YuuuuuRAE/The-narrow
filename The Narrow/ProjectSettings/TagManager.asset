@@ -11,6 +11,8 @@ TagManager:
   - Vent
   - BookShelf
   - Table
+  - Cabinet
+  - Suitcase
   layers:
   - Default
   - TransparentFX

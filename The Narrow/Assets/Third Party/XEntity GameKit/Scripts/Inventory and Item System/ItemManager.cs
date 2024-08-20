@@ -18,6 +18,14 @@ namespace XEntity.InventoryItemSystem
         //Either assign the items manually when created or select the item scriptable object > right click > select Add To Item List 
         public List<Item> itemList = new List<Item>();
 
+        public GameObject diary;
+
+        public GameObject[] diaryPage;
+
+        public GameObject quiz;
+
+        public GameObject[] quizNum;
+
         private void Awake()
         {
             //Singleton logic
@@ -76,6 +84,23 @@ namespace XEntity.InventoryItemSystem
         private void DefaultItemUse(ItemSlot slot) 
         {
             Debug.Log($"Using {slot.slotItem.itemName}.");
+            if(slot.slotItem.itemName.Contains("Diary"))
+            {
+                diary.SetActive(true);
+                for(int i = 0; i < 5; i++)
+                {
+                    if(slot.slotItem.itemName.Equals(diaryPage[i].name))
+                        diaryPage[i].SetActive(true);
+                }
+            }
+            else if(slot.slotItem.itemName.Contains("Quiz")){
+                quiz.SetActive(true);
+                for(int i = 0; i < 3; i++)
+                {
+                    if(slot.slotItem.itemName.Equals(quizNum[i].name))
+                        quizNum[i].SetActive(true);
+                }
+            }
         }
 
 

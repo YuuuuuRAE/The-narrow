@@ -10,6 +10,7 @@ using TMPro;
 
 //Dark UI
 using Michsky.UI.Dark;
+using System.Runtime.CompilerServices;
 
 //Name Space : XEntity Inventory System
 namespace XEntity.InventoryItemSystem
@@ -26,7 +27,20 @@ namespace XEntity.InventoryItemSystem
         //State Variable : Can Open (Door, Chest)
         private bool canOpen;
 
-        private bool canOpenVent;
+        public bool canOpenVent;
+
+        private bool cabinetOpen;
+
+        public bool canOpenSuitcase;
+
+        public GameObject openCabinet;
+        public GameObject closeCabinet;
+
+        public GameObject ventQuiz;
+
+        public Quiz quiz;
+
+        public GameObject keypad;
 
         //Variable of RayCastHit
         private RaycastHit hit;
@@ -84,6 +98,8 @@ namespace XEntity.InventoryItemSystem
             canPickUp = false;
             canOpen = false;
             canOpenVent = false; //* Initialize Vent State
+            cabinetOpen = false;
+            canOpenSuitcase = false;
         }
 
         /// <summary>
@@ -113,7 +129,7 @@ namespace XEntity.InventoryItemSystem
                     //Call Appear Book Info Method
                     AppearBookInfo();
                 }
-                else if (hit.transform.CompareTag("Vent"))
+                else if (hit.transform.CompareTag("Vent") && !canOpenVent)
                 {
                     //*Call Appear Vent Info Method
                     AppearVentInfo();
@@ -123,10 +139,15 @@ namespace XEntity.InventoryItemSystem
                     //*Call Appear BookShelf Info Method
                     AppearBookShelfInfo();
                 }
-                else if (hit.transform.CompareTag("Table"))
+                else if (hit.transform.CompareTag("Cabinet"))
                 {
-                    //*Call Appear Table Info Method
-                    AppearTableInfo();
+                    //*Call Appear Cabinet Info Method
+                    AppearCabinetInfo();
+                }
+                else if (hit.transform.CompareTag("Suitcase"))
+                {
+                    //*Call Appear Suitcase Info Method
+                    AppearSuitcaseInfo();
                 }
                 
             }
@@ -189,14 +210,17 @@ namespace XEntity.InventoryItemSystem
 
             actionText.text = "환풍구 열기 " + "(E)";
             
-            //Check Key
+            //Check Crowbar
             foreach (ItemSlot item in itemContainer.slots)
             {
                 //Pass Loop
                 if (item.slotItem == null) continue;
 
-                //Check Key
-                if (item.slotItem.itemName == "Key") canOpenVent = true;
+                //Check Crowbar
+                if (item.slotItem.itemName == "Crowbar") {
+                    canOpenVent = true;
+                    break;
+                }
                 else canOpenVent = false;
             }
         }
@@ -212,17 +236,42 @@ namespace XEntity.InventoryItemSystem
             
         }
 
-
-        ///* <summary>
-        /// Appear Table Information 
+        /// <summary>
+        /// Appear Cabinet Information
         /// </summary>
-        private void AppearTableInfo()
+        private void AppearCabinetInfo()
         {
             actionText.gameObject.SetActive(true);
 
-            actionText.text = "책상 확인 " + "(E)";
-            
+            actionText.text = "수납장 열기 " + "(E)";
+
+            //Check Key
+            foreach (ItemSlot item in itemContainer.slots)
+            {
+                //Pass Loop
+                if (item.slotItem == null) continue;
+
+                //Check Key
+                if (item.slotItem.itemName == "Key"){
+                    cabinetOpen = true;
+                    break;
+                }
+                else cabinetOpen = false;
+            }
         }
+
+        /// <summary>
+        /// Appear Suitcase Information
+        /// </summary>
+        private void AppearSuitcaseInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "가방 열기 " + "(E)";
+
+        }
+
+
 
         /// <summary>
         /// Disappear Information Method
@@ -254,6 +303,15 @@ namespace XEntity.InventoryItemSystem
 
                 //*Open Vent
                 OpenVent();
+
+                //*Open Cabinet
+                OpenCabinet();
+
+                //*Open Suitcase
+                OpenSuitcase();
+
+                //*Open Keypad
+                OpenKeypad();
             }
         }
 
@@ -313,6 +371,8 @@ namespace XEntity.InventoryItemSystem
                     openVent.ModalWindowIn();
 
                     playerMove.canMove = false;
+
+                    ventQuiz.SetActive(true);
                 }
                 else if (!canOpenVent)
                 {
@@ -322,6 +382,52 @@ namespace XEntity.InventoryItemSystem
 
                     playerMove.canMove = false;
                 }
+            }
+        }
+
+
+        //* Open Cabinet Method
+        private void OpenCabinet()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("Cabinet"))
+            {
+                if (cabinetOpen)
+                {
+                    closeCabinet.SetActive(false);
+                    openCabinet.SetActive(true);
+                    DisappearInfo();
+                }
+            }
+        }
+
+
+        //*Open Vent Method
+        private void OpenSuitcase()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("Suitcase"))
+            {
+                playerMove.canMove = false;
+
+                quiz.inputNum = 0;
+                quiz.inputfieldPanel.SetActive(true);
+            }
+        }
+
+        //*Open Vent Method
+        private void OpenKeypad()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("BookShelf"))
+            {
+                playerMove.canMove = false;
+
+                keypad.SetActive(true);
+
             }
         }
     }
