@@ -11,12 +11,16 @@ public class Diary : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E)){
-            for(int i = 0; i < 5; i++)
-            if(itemManager.diaryPage[i].activeSelf)
-                itemManager.diaryPage[i].SetActive(false);
-
-            diary.SetActive(false);
+        if(!diary.activeSelf)
+        {
+            for(int i = 0; i < itemManager.diaryPage.Length; i++)
+            {
+                if(itemManager.diaryPage[i].activeSelf)
+                {
+                    Debug.Log(i);
+                    itemManager.diaryPage[i].SetActive(false);
+                }
+            }
         }
 
 

@@ -25,13 +25,13 @@ namespace XEntity.InventoryItemSystem
         private bool canPickUp;
 
         //State Variable : Can Open (Door, Chest)
-        private bool canOpen;
+        public bool canOpen;
+
+        public bool isKeypadDoor;
 
         public bool canOpenVent;
 
         private bool cabinetOpen;
-
-        public bool canOpenSuitcase;
 
         public GameObject openCabinet;
         public GameObject closeCabinet;
@@ -39,6 +39,12 @@ namespace XEntity.InventoryItemSystem
         public GameObject ventQuiz;
 
         public Quiz quiz;
+
+        public Suitcase suitcase;
+
+        public Box box;
+
+        public KeypadDoor keypadDoor;
 
         public GameObject keypad;
 
@@ -58,7 +64,7 @@ namespace XEntity.InventoryItemSystem
         [SerializeField] private ItemContainer itemContainer;
 
         [Header("게임 클리어 팝업")]
-        [SerializeField] private ModalWindowManager clearWindow;
+        public ModalWindowManager clearWindow;
 
         [Header("문을 열고 나갈 수 없음을 알려주는 팝업")]
         [SerializeField] private ModalWindowManager cantOpenWindow;
@@ -102,7 +108,6 @@ namespace XEntity.InventoryItemSystem
             canOpen = false;
             canOpenVent = false; //* Initialize Vent State
             cabinetOpen = false;
-            canOpenSuitcase = false;
         }
 
         /// <summary>
@@ -152,6 +157,11 @@ namespace XEntity.InventoryItemSystem
                     //*Call Appear Suitcase Info Method
                     AppearSuitcaseInfo();
                 }
+                else if (hit.transform.CompareTag("Box"))
+                {
+                    //*Call Appear Box Info Method
+                    AppearBoxInfo();
+                }
                 
             }
             //Call Disappear Information Method
@@ -182,16 +192,6 @@ namespace XEntity.InventoryItemSystem
 
             actionText.text = "문 열기 " + "(E)";
 
-            //Check Key
-            foreach (ItemSlot item in itemContainer.slots)
-            {
-                //Pass Loop
-                if (item.slotItem == null) continue;
-
-                //Check Key
-                if (item.slotItem.itemName == "Key") canOpen = true;
-                else canOpen = false;
-            }
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace XEntity.InventoryItemSystem
                 if (item.slotItem == null) continue;
 
                 //Check Key
-                if (item.slotItem.itemName == "Key"){
+                if (item.slotItem.itemName == "Cabinet Key"){
                     cabinetOpen = true;
                     break;
                 }
@@ -271,6 +271,19 @@ namespace XEntity.InventoryItemSystem
             actionText.gameObject.SetActive(true);
 
             actionText.text = "가방 열기 " + "(E)";
+
+        }
+
+
+
+        /// <summary>
+        /// Appear Suitcase Information
+        /// </summary>
+        private void AppearBoxInfo()
+        {
+            actionText.gameObject.SetActive(true);
+
+            actionText.text = "보관함 열기 " + "(E)";
 
         }
 
@@ -318,6 +331,8 @@ namespace XEntity.InventoryItemSystem
 
                 //*Open Book
                 OpenBook();
+                //*Open Box
+                OpenBox();
             }
         }
 
@@ -357,7 +372,26 @@ namespace XEntity.InventoryItemSystem
         //Open Door Method
         private void OpenDoor()
         {
+
+            //Check Key
+            foreach (ItemSlot item in itemContainer.slots)
+            {
+                //Pass Loop
+                if (item.slotItem == null) continue;
+
+                //Check Key
+                if (item.slotItem.itemName == "Key" && !isKeypadDoor) canOpen = true;
+                else canOpen = false;
+            }
+
             if (hit.transform == null) return;
+
+            if (isKeypadDoor && hit.transform.CompareTag("Door")) {
+                quiz.inputfieldPanel.SetActive(true);
+
+                keypadDoor.openKeypadDoor = true;
+            }
+            
 
             if (hit.transform.CompareTag("Door"))
             {
@@ -367,7 +401,7 @@ namespace XEntity.InventoryItemSystem
 
                     playerMove.canMove = false;
                 }
-                else if (!canOpen)
+                else if (!canOpen && !keypadDoor)
                 {
                     cantOpenWindow.ModalWindowIn();
 
@@ -431,7 +465,8 @@ namespace XEntity.InventoryItemSystem
             {
                 playerMove.canMove = false;
 
-                quiz.inputNum = 0;
+                suitcase.openSuitcase = true;
+
                 quiz.inputfieldPanel.SetActive(true);
             }
         }
@@ -449,6 +484,22 @@ namespace XEntity.InventoryItemSystem
 
             }
         }
+
+        //*Open Vent Method
+        private void OpenBox()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("Box"))
+            {
+                playerMove.canMove = false;
+
+                box.openBox = true;
+
+                quiz.inputfieldPanel.SetActive(true);
+            }
+        }
+
     }
 }
 

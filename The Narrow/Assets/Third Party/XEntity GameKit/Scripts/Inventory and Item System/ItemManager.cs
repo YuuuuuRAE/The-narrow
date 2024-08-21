@@ -87,7 +87,7 @@ namespace XEntity.InventoryItemSystem
             if(slot.slotItem.itemName.Contains("Diary"))
             {
                 diary.SetActive(true);
-                for(int i = 0; i < 5; i++)
+                for(int i = 0; i < diaryPage.Length; i++)
                 {
                     if(slot.slotItem.itemName.Equals(diaryPage[i].name))
                         diaryPage[i].SetActive(true);
@@ -95,7 +95,7 @@ namespace XEntity.InventoryItemSystem
             }
             else if(slot.slotItem.itemName.Contains("Quiz")){
                 quiz.SetActive(true);
-                for(int i = 0; i < 3; i++)
+                for(int i = 0; i < quizNum.Length; i++)
                 {
                     if(slot.slotItem.itemName.Equals(quizNum[i].name))
                         quizNum[i].SetActive(true);
