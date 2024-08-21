@@ -20,7 +20,10 @@ public class SceneConverter : MonoBehaviour
 
     private void OnDisable()
     {
-        SceneManager.LoadScene("Main Menu");
+        if (fadeOut)
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 
     private void OnEnable()

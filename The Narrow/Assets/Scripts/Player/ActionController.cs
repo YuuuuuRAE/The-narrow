@@ -331,6 +331,7 @@ namespace XEntity.InventoryItemSystem
 
                 //*Open Book
                 OpenBook();
+
                 //*Open Box
                 OpenBox();
             }
@@ -367,6 +368,12 @@ namespace XEntity.InventoryItemSystem
 
                 tutorialPanel.SetActive(true);
             }
+        }
+
+        public void CloseBook()
+        {
+            playerMove.canMove = true;
+            tutorialPanel.SetActive(false);
         }
 
         //Open Door Method
