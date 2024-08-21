@@ -1,4 +1,5 @@
 //System
+using Michsky.UI.Dark;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -35,6 +36,12 @@ public class WallController : MonoBehaviour
     [Header("현재 벽이 줄어들 수 있는지 여부")]
     [SerializeField] private bool canNarrow = true;
 
+    [Header("게임 오버 Modal Window")]
+    [SerializeField] private ModalWindowManager gameOverWindow;
+
+    [Header("PlayerMove")]
+    [SerializeField] private PlayerMove playerMove;
+
     private void Awake()
     {
         //Initialize variables
@@ -59,8 +66,14 @@ public class WallController : MonoBehaviour
                     //Convert Narrow Sign Method
                     ConvertNarrowSign();
                 else
-                    //GameOver
-                    Debug.Log("게임 오버");
+                {
+                    playerMove.canMove = false;
+
+                    ConvertNarrowSign();
+
+                    StartCoroutine(GameOverCoroutine());
+                }
+
             }
 
             //Move Walls
@@ -71,6 +84,17 @@ public class WallController : MonoBehaviour
             }
         }
     }
+
+    IEnumerator GameOverCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        //GameOver
+        gameOverWindow.ModalWindowIn();
+
+        gameStart = false;
+    }
+
     //Convert Narrow Sign
     private void ConvertNarrowSign()
     {

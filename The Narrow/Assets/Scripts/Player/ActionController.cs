@@ -69,6 +69,9 @@ namespace XEntity.InventoryItemSystem
         [Header("벤트를 열었음을 알려주는 팝업")] //*
         [SerializeField] private ModalWindowManager openVent;
 
+        [Header("튜토리얼 책 팝업")]
+        [SerializeField] private GameObject tutorialPanel;
+
         [SerializeField] private PlayerMove playerMove;
 
         private void Awake()
@@ -312,6 +315,9 @@ namespace XEntity.InventoryItemSystem
 
                 //*Open Keypad
                 OpenKeypad();
+
+                //*Open Book
+                OpenBook();
             }
         }
 
@@ -332,6 +338,19 @@ namespace XEntity.InventoryItemSystem
 
                     DisappearInfo();
                 }
+            }
+        }
+
+        //Open Book Method
+        private void OpenBook()
+        {
+            if (hit.transform == null) return;
+
+            if (hit.transform.CompareTag("Book"))
+            {
+                playerMove.canMove = false;
+
+                tutorialPanel.SetActive(true);
             }
         }
 
