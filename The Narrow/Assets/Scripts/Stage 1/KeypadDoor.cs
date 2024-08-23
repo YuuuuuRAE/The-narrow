@@ -42,6 +42,12 @@ public class KeypadDoor : MonoBehaviour
             actionController.clearWindow.ModalWindowIn();
 
         }
+        else
+        {
+            if (!SoundManager.instance.IsPlaying("Failure"))
+                SoundManager.instance.PlaySFX("Failure");
+        }
+
     }
 
 

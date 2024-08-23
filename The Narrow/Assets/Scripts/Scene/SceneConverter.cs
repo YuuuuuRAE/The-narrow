@@ -13,10 +13,7 @@ public class SceneConverter : MonoBehaviour
 
     public AudioSource audioSource;
 
-    private void Start()
-    {
-        fadeOut = false;
-    }
+    public TutorialScene scene;
 
     private void OnDisable()
     {
@@ -36,11 +33,13 @@ public class SceneConverter : MonoBehaviour
 
     IEnumerator MusicFadeOutCoroutine()
     {
-        for (float i = 1f; i >= 0; i -= 0.03f)
+        for (float i = 1f; i >= 0; i -= 0.02f)
         {
             audioSource.volume = i;
             yield return new WaitForSeconds(0.1f);
         }
+
+        scene.StageClear();
     }
 
     public void ConvertScene(string sceneName)

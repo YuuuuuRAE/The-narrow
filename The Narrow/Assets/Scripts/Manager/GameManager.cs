@@ -31,12 +31,16 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        Cursor.visible = true;
+
         Time.timeScale = 0f;
         isPause = true;
     }
 
     public void Resume()
     {
+        Cursor.visible = false;
+
         Time.timeScale = 1f;
         isPause = false;
     }

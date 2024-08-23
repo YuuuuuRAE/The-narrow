@@ -32,5 +32,7 @@ public class GameStarter : MonoBehaviour
         //Convert Sign
         playerMove.canMove = true;
         wallController.gameStart = true;
+
+        Cursor.visible = false;
     }
 }

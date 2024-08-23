@@ -15,6 +15,8 @@ public class MainMenuScene : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = true;
+
         data = DataManager.Instance.data;
 
         for (int i = 0; i < data.clear.Length; i++)

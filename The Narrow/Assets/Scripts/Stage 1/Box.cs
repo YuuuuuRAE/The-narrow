@@ -37,16 +37,24 @@ public class Box : MonoBehaviour
         
         if(inputField.text == password){
 
+            SoundManager.instance.PlaySFX("Cabinet Open");
+
             DeactivePanel();
 
             diaryObject.SetActive(true);
 
             quizObject.SetActive(true);
 
+            SoundManager.instance.PlaySFX("Place Item");
+
             box.tag = "Untagged";
 
         }
-
+        else
+        {
+            if (!SoundManager.instance.IsPlaying("Failure"))
+                SoundManager.instance.PlaySFX("Failure");
+        }
 
     }
 

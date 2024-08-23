@@ -43,8 +43,15 @@ public class Suitcase : MonoBehaviour
 
             quizObject.SetActive(true);
 
+            SoundManager.instance.PlaySFX("Place Item");
+
             suitcase.tag = "Untagged";
 
+        }
+        else
+        {
+            if (!SoundManager.instance.IsPlaying("Failure"))
+                SoundManager.instance.PlaySFX("Failure");
         }
     }
 

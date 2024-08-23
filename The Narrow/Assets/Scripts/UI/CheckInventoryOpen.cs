@@ -21,6 +21,8 @@ public class CheckInventoryOpen : MonoBehaviour
             blackBackGround.SetActive(true);
 
             //SoundManager.instance.PlaySFX("Hover");
+
+            Cursor.visible = true;
         }
 
     }
@@ -32,6 +34,8 @@ public class CheckInventoryOpen : MonoBehaviour
             playerMove.canMove = true;
 
             blackBackGround.SetActive(false);
+
+            Cursor.visible = false;
 
             //SoundManager.instance.PlaySFX("Click");
         }

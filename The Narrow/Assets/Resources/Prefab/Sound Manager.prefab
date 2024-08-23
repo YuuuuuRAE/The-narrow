@@ -87,6 +87,18 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7d22997c3222c124d91d351ddc1c6ee4, type: 3}
   - name: Jump Land
     clip: {fileID: 8300000, guid: bb5ec83ccc5c69f43b31f100278bff91, type: 3}
+  - name: Cabinet Open
+    clip: {fileID: 8300000, guid: 6cc4537865ae1479b9e7ac12ab172909, type: 3}
+  - name: Place Item
+    clip: {fileID: 8300000, guid: 623ad07c146cedd4db6b902fd1612618, type: 3}
+  - name: Vent Open
+    clip: {fileID: 8300000, guid: 2f600d94602564a99ad4dad55a4a317d, type: 3}
+  - name: Unlock
+    clip: {fileID: 8300000, guid: dd532fdb2a61e4cc5bc727f3b32a69a8, type: 3}
+  - name: Failure
+    clip: {fileID: 8300000, guid: 4ce0559c517f2af4c96cd5e0e8902f04, type: 3}
+  - name: Keypad Click
+    clip: {fileID: 8300000, guid: 0ccb2d39be0513141bf87c1a96e76f65, type: 3}
   sfxAudioSources:
   - {fileID: 3299841212336328238}
   - {fileID: 3299841212336328237}

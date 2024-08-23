@@ -25,7 +25,8 @@ public class Keypad : MonoBehaviour
         if(text.text == "키패드 입력"){
             text.text = "";
         }
-        text.text += number.ToString(); 
+        text.text += number.ToString();
+        SoundManager.instance.PlaySFX("Keypad Click");
     }
 
     public void Excute(){
@@ -37,6 +38,13 @@ public class Keypad : MonoBehaviour
 
             quiz.SetActive(true);
             diary.SetActive(true);
+
+            SoundManager.instance.PlaySFX("Place Item");
+        }
+        else
+        {
+            if (!SoundManager.instance.IsPlaying("Failure"))
+                SoundManager.instance.PlaySFX("Failure");
         }
 
         text.text = "";

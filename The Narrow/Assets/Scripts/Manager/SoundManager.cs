@@ -80,6 +80,18 @@ public class SoundManager : MonoBehaviour
         //Debug.Log
         Debug.Log("등록되지 않은 사운드");
     }
+    
+    public bool IsPlaying (string _name)
+    {
+        for (int i = 0; i < sfxAudioSources.Count; i++)
+        {
+            if (sfxAudioSources[i].clip == null) continue;
+
+            if (_name == sfxAudioSources[i].clip.name)
+                return true;
+        }
+        return false;
+    }
 
     //Stop All SFX Method
     public void StopAllSFX()

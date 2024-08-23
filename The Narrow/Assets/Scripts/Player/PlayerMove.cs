@@ -89,8 +89,18 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+
+        if (!canMove)
+        {
+            SoundManager.instance.StopSFX(footStepSound);
+
+            Cursor.visible = true;
+        }
+
         if (canMove && !GameManager.instance.isPause)
         {
+            Cursor.visible = false;
+
             //Check Landing
             CheckLanding();
 

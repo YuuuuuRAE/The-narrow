@@ -433,6 +433,9 @@ namespace XEntity.InventoryItemSystem
                     playerMove.canMove = false;
 
                     ventQuiz.SetActive(true);
+
+                    SoundManager.instance.PlaySFX("Vent Open");
+                    SoundManager.instance.PlaySFX("Place Item");
                 }
                 else if (!canOpenVent)
                 {
@@ -458,12 +461,13 @@ namespace XEntity.InventoryItemSystem
                     closeCabinet.SetActive(false);
                     openCabinet.SetActive(true);
                     DisappearInfo();
+
+                    SoundManager.instance.PlaySFX("Cabinet Open");
+                    SoundManager.instance.PlaySFX("Place Item");
                 }
             }
         }
 
-
-        //*Open Vent Method
         private void OpenSuitcase()
         {
             if (hit.transform == null) return;
@@ -478,7 +482,6 @@ namespace XEntity.InventoryItemSystem
             }
         }
 
-        //*Open Vent Method
         private void OpenKeypad()
         {
             if (hit.transform == null) return;
@@ -492,7 +495,6 @@ namespace XEntity.InventoryItemSystem
             }
         }
 
-        //*Open Vent Method
         private void OpenBox()
         {
             if (hit.transform == null) return;

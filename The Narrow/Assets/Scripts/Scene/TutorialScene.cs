@@ -15,6 +15,8 @@ public class TutorialScene : MonoBehaviour
     private PlayerMove playerMove;
     private Data data;
 
+    public int sceneNumber;
+
     private void Start()
     {
         gameManager = GameManager.instance;
@@ -24,19 +26,19 @@ public class TutorialScene : MonoBehaviour
 
     public void StageClear()
     {
-        data.clear[0] = true;
+        data.clear[sceneNumber] = true;
     }
 
     public void Pause()
     {
-        gameManager.Pause();
+        //gameManager.Pause();
 
         playerMove.canMove = false;
     }
 
     public void Resume()
     {
-        gameManager.Resume();
+        //gameManager.Resume();
 
         playerMove.canMove = true;
     }
